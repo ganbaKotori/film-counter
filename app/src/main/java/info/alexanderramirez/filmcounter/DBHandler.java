@@ -1,5 +1,6 @@
 package info.alexanderramirez.filmcounter;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -36,6 +37,17 @@ public class DBHandler extends SQLiteOpenHelper {
                 + TITLE_COL + " TEXT,"
                 + WATCH_COUNT_COL + "TEXT)";
         db.execSQL(query);
+    }
+
+    public void addNewFilm(String filmTitle, int filmWatchCount){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(TITLE_COL, filmTitle);
+        values.put(WATCH_COUNT_COL, filmWatchCount);
+
+        db.insert(TABLE_NAME, null, values);
+        db.close();
     }
 
     @Override
