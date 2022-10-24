@@ -74,6 +74,18 @@ public class DBHandler extends SQLiteOpenHelper {
         return filmModelArrayList;
     }
 
+    public void updateFilm(int id, String filmTitle, int filmWatchCount){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(TITLE_COL, filmTitle);
+        values.put(WATCH_COUNT_COL, filmWatchCount);
+        String id_str = Integer.toString(id);
+
+        db.update(TABLE_NAME, values,"id=?", new String[] {id_str});
+        db.close();
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // this method is called to check if the table exists already.

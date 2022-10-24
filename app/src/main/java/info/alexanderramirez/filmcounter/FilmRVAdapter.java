@@ -72,6 +72,9 @@ public class FilmRVAdapter extends RecyclerView.Adapter<FilmRVAdapter.ViewHolder
 //                }
 //
 //                dbHandler.addNewCourse(courseName, courseDuration, courseDescription, courseTracks);
+                DBHandler dbHandler = new DBHandler(context);
+                modal.setFilmWatchCount(modal.getFilmWatchCount() + 1);
+                dbHandler.updateFilm(modal.getId(),modal.getFilmTitle(),modal.getFilmWatchCount());
 
                 Toast.makeText(v.getContext(), "Incrementing", Toast.LENGTH_SHORT).show();
 //                courseNameEdt.setText("");
