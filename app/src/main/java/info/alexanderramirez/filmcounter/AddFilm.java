@@ -27,6 +27,19 @@ public class AddFilm extends AppCompatActivity {
         addFilmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //below line is to get data from all edit text fields
+                String filmTitle  = filmTitleTextInput.getText().toString();
+                String filmWatchCount = filmWatchCountTextInput.getText().toString();
+
+                //validating if the text fields are empty or not
+                if (filmTitle.isEmpty() && filmWatchCount.isEmpty()){
+                    Toast.makeText(AddFilm.this, "Please enter all the data...", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                dbHandler.addNewFilm(filmTitle, Integer.parseInt(filmWatchCount));
+                filmTitleTextInput.setText("");
+                filmWatchCountTextInput.setText("");
                 Toast.makeText(AddFilm.this, "Film has been added!", Toast.LENGTH_SHORT).show();
             }
         });

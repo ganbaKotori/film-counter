@@ -2,8 +2,12 @@ package info.alexanderramirez.filmcounter;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 public class DBHandler extends SQLiteOpenHelper {
     // creating a constant variables for our database.
@@ -11,7 +15,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "filmdb";
 
     // below int is our database version
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     // below variable is for our table name.
     private static final String TABLE_NAME = "films";
@@ -35,7 +39,7 @@ public class DBHandler extends SQLiteOpenHelper {
         String query = "CREATE TABLE " + TABLE_NAME + " ("
                 + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + TITLE_COL + " TEXT,"
-                + WATCH_COUNT_COL + "TEXT)";
+                + WATCH_COUNT_COL + " INTEGER)";
         db.execSQL(query);
     }
 
@@ -44,14 +48,36 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(TITLE_COL, filmTitle);
-        values.put(WATCH_COUNT_COL, filmWatchCount);
+        values.put(WATCH_COUNT_COL, Integer.toString(filmWatchCount));
 
         db.insert(TABLE_NAME, null, values);
         db.close();
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public ArrayList<FilmModel> readFilms(){
+        Log.i("activity", "MyClass.getView() — get item number ");
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursorFilms = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        ArrayList<FilmModel> filmModelArrayList = new ArrayList<>();
+        if (cursorFilms.moveToFirst()) {
+            //String filmTitle, int filmWatchCount, int id
+            do {
 
+                System.out.println(cursorFilms.getString(1));
+                filmModelArrayList.add(new FilmModel(cursorFilms.getString(1),
+                        Integer.parseInt(cursorFilms.getString(2)),
+                        Integer.parseInt(cursorFilms.getString(0))));
+            } while (cursorFilms.moveToNext());
+        }
+
+        cursorFilms.close();
+        return filmModelArrayList;
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // this method is called to check if the table exists already.
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        onCreate(db);
     }
 }

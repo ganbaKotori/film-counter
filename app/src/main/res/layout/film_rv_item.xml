@@ -16,7 +16,7 @@
 
         <!--text view for our course name-->
         <TextView
-            android:id="@+id/idTVCourseName"
+            android:id="@+id/FilmTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="3dp"
@@ -25,7 +25,7 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/idTVCourseName2"
+            android:id="@+id/FilmWatchCountTextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="3dp"
