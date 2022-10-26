@@ -2,6 +2,7 @@ package info.alexanderramirez.filmcounter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +42,8 @@ public class AddFilm extends AppCompatActivity {
                 filmTitleTextInput.setText("");
                 filmWatchCountTextInput.setText("");
                 Toast.makeText(AddFilm.this, "Film has been added!", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(AddFilm.this, MainActivity.class);
+                startActivity(i);
             }
         });
     }

@@ -57,7 +57,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public ArrayList<FilmModel> readFilms(){
         Log.i("activity", "MyClass.getView() — get item number ");
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursorFilms = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        Cursor cursorFilms = db.rawQuery("SELECT * FROM " + TABLE_NAME + " ORDER BY " + WATCH_COUNT_COL + " DESC", null);
         ArrayList<FilmModel> filmModelArrayList = new ArrayList<>();
         if (cursorFilms.moveToFirst()) {
             //String filmTitle, int filmWatchCount, int id
@@ -83,6 +83,13 @@ public class DBHandler extends SQLiteOpenHelper {
         String id_str = Integer.toString(id);
 
         db.update(TABLE_NAME, values,"id=?", new String[] {id_str});
+        db.close();
+    }
+
+    public void deleteFilm(int filmId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String filmIdStr = Integer.toString(filmId);
+        db.delete(TABLE_NAME, "id=?", new String[]{filmIdStr});
         db.close();
     }
 

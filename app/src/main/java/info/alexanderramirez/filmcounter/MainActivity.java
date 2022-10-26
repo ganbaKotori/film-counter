@@ -24,14 +24,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        addFilmBtn = findViewById(R.id.AddNewFilmBtn);
-//        addFilmBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = new Intent(MainActivity.this, AddFilm.class);
-//                startActivity(i);
-//            }
-//        });
+        addFilmBtn = findViewById(R.id.AddNewFilmBtn);
+        addFilmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, AddFilm.class);
+                startActivity(i);
+            }
+        });
 
         filmModelArrayList = new ArrayList<>();
         dbHandler = new DBHandler(MainActivity.this);

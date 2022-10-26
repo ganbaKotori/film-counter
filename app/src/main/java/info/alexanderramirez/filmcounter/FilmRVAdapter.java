@@ -35,27 +35,23 @@ public class FilmRVAdapter extends RecyclerView.Adapter<FilmRVAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        FilmModel modal = filmModelArraylist.get(position);
-        holder.filmTitleTextView.setText(modal.getFilmTitle());
-        System.out.println(modal.getFilmWatchCount());
-        holder.filmWatchCountTextView.setText(Integer.toString(modal.getFilmWatchCount()));
+        FilmModel model = filmModelArraylist.get(position);
+        holder.filmTitleTextView.setText(model.getFilmTitle());
+        System.out.println(model.getFilmWatchCount());
+        holder.filmWatchCountTextView.setText("Watch Count: " + Integer.toString(model.getFilmWatchCount()));
 
-        // below line is to add on click listener for our recycler view item.
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                // on below line we are calling an intent.
-//                Intent i = new Intent(context, UpdateCourseActivity.class);
-//
-//                // below we are passing all our values.
-//                i.putExtra("name", modal.getCourseName());
-//                i.putExtra("description", modal.getCourseDescription());
-//
-//                // starting our activity.
-//                context.startActivity(i);
-//            }
-//        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, UpdateFilm.class);
+                i.putExtra("film_title", model.getFilmTitle());
+                i.putExtra("film_watch_count", Integer.toString(model.getFilmWatchCount()));
+                i.putExtra("film_id", Integer.toString(model.getId()));
+
+                // starting our activity.
+                context.startActivity(i);
+            }
+        });
         holder.incrementBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -73,10 +69,39 @@ public class FilmRVAdapter extends RecyclerView.Adapter<FilmRVAdapter.ViewHolder
 //
 //                dbHandler.addNewCourse(courseName, courseDuration, courseDescription, courseTracks);
                 DBHandler dbHandler = new DBHandler(context);
-                modal.setFilmWatchCount(modal.getFilmWatchCount() + 1);
-                dbHandler.updateFilm(modal.getId(),modal.getFilmTitle(),modal.getFilmWatchCount());
+                model.setFilmWatchCount(model.getFilmWatchCount() + 1);
+                dbHandler.updateFilm(model.getId(),model.getFilmTitle(),model.getFilmWatchCount());
+                holder.filmWatchCountTextView.setText("Watch Count: " + Integer.toString(model.getFilmWatchCount()));
+//                courseNameEdt.setText("");
+//                courseDurationEdt.setText("");
+//                courseTracksEdt.setText("");
+//                courseDescriptionEdt.setText("");
+            }
+        });
 
-                Toast.makeText(v.getContext(), "Incrementing", Toast.LENGTH_SHORT).show();
+        holder.decrementBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                //below line is to get data from all edit text fields
+//                String courseName  = courseNameEdt.getText().toString();
+//                String courseTracks = courseTracksEdt.getText().toString();
+//                String courseDuration = courseDurationEdt.getText().toString();
+//                String courseDescription = courseDescriptionEdt.getText().toString();
+//
+//                //validating if the text fields are empty or not
+//                if (courseName.isEmpty() && courseTracks.isEmpty() && courseDuration.isEmpty()){
+//                    Toast.makeText(MainActivity.this, "Please enter all the data...", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//
+//                dbHandler.addNewCourse(courseName, courseDuration, courseDescription, courseTracks);
+                DBHandler dbHandler = new DBHandler(context);
+                if(model.getFilmWatchCount() > 0){
+                    model.setFilmWatchCount(model.getFilmWatchCount() - 1);
+                    dbHandler.updateFilm(model.getId(),model.getFilmTitle(),model.getFilmWatchCount());
+                    holder.filmWatchCountTextView.setText("Watch Count: " + Integer.toString(model.getFilmWatchCount()));
+                }
+
 //                courseNameEdt.setText("");
 //                courseDurationEdt.setText("");
 //                courseTracksEdt.setText("");

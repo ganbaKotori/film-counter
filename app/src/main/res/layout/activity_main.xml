@@ -6,18 +6,27 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".MainActivity">
 
-<!--<Button-->
-<!--    android:id="@+id/AddNewFilmBtn"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:layout_margin="10dp"-->
-<!--    android:text="Add New Film" />-->
+    <!--recycler view for displaying our courses-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-<!--recycler view for displaying our courses-->
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/FilmsRV"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/AddNewFilmBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Add New Film" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/FilmsRV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
 </RelativeLayout>
 
