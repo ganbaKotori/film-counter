@@ -35,4 +35,12 @@ public class FilmModel {
         this.filmWatchCount = filmWatchCount;
         this.id = id;
     }
+
+    public Boolean validateData(){
+        if (this.getFilmTitle().length() == 0){
+            return false;
+        }
+
+        return true;
+    }
 }
