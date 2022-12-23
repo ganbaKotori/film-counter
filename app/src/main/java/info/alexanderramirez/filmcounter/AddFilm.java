@@ -28,22 +28,30 @@ public class AddFilm extends AppCompatActivity {
         addFilmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //below line is to get data from all edit text fields
+                //retrieve data from text fields
                 String filmTitle  = filmTitleTextInput.getText().toString();
-                String filmWatchCount = filmWatchCountTextInput.getText().toString();
+                String filmWatchCountStr = filmWatchCountTextInput.getText().toString();
+                //integer to be initialized after parsing string
+                int filmWatchCount;
 
-                //validating if the text fields are empty or not
-                if (filmTitle.isEmpty() && filmWatchCount.isEmpty()){
-                    Toast.makeText(AddFilm.this, "Please enter all the data...", Toast.LENGTH_SHORT).show();
+                try {
+                    filmWatchCount = Integer.parseInt(filmWatchCountStr);
+
+                } catch (NumberFormatException e) {
+                    Toast.makeText(AddFilm.this, "Please enter a valid number...", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-                dbHandler.addNewFilm(filmTitle, Integer.parseInt(filmWatchCount));
-                filmTitleTextInput.setText("");
-                filmWatchCountTextInput.setText("");
-                Toast.makeText(AddFilm.this, "Film has been added!", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(AddFilm.this, MainActivity.class);
-                startActivity(i);
+                FilmModel fm = new FilmModel(filmTitle,filmWatchCount);
+                if(fm.validateData()){
+                    dbHandler.addNewFilm(fm.getFilmTitle(), fm.getFilmWatchCount());
+                    filmTitleTextInput.setText("");
+                    filmWatchCountTextInput.setText("");
+                    Toast.makeText(AddFilm.this, "Film has been added!", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(AddFilm.this, MainActivity.class);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(AddFilm.this, "Please enter valid data...", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

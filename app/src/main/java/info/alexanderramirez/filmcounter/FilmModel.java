@@ -36,8 +36,16 @@ public class FilmModel {
         this.id = id;
     }
 
+    public FilmModel(String filmTitle, int filmWatchCount){
+        this.filmTitle = filmTitle;
+        this.filmWatchCount = filmWatchCount;
+    }
+
     public Boolean validateData(){
         if (this.getFilmTitle().length() == 0){
+            return false;
+        }
+        if (this.getFilmWatchCount() < 0){
             return false;
         }
 

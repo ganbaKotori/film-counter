@@ -11,4 +11,10 @@ public class FilmModelTest{
         assertEquals(false,filmModel.validateData());
     }
 
+    @Test
+    public void negativeWatchCountShouldFailValidator(){
+        FilmModel filmModel = new FilmModel("The Social Network", -2,0);
+        assertEquals(false,filmModel.validateData());
+    }
+
 }

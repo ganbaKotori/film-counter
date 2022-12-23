@@ -39,11 +39,27 @@ public class UpdateFilm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String updatedFilmTitle = filmTitleTextInput.getText().toString();
-                int updatedFilmCount = Integer.parseInt(filmWatchCountTextInput.getText().toString());
-                dbHandler.updateFilm(Integer.parseInt(filmId),updatedFilmTitle,updatedFilmCount);
-                Toast.makeText(UpdateFilm.this, "Film has been updated!", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(UpdateFilm.this, MainActivity.class);
-                startActivity(i);
+                String updatedFilmWatchCountStr = filmWatchCountTextInput.getText().toString();
+                int updatedFilmCount;
+
+                try {
+                    updatedFilmCount = Integer.parseInt(updatedFilmWatchCountStr);
+
+                } catch (NumberFormatException e) {
+                    Toast.makeText(UpdateFilm.this, "Please enter a valid number...", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                //initialize FilmModel instance
+                FilmModel fm = new FilmModel(updatedFilmTitle,updatedFilmCount,Integer.parseInt(filmId));
+                if (fm.validateData()){
+                    dbHandler.updateFilm(fm.getId(),fm.getFilmTitle(),fm.getFilmWatchCount());
+                    Toast.makeText(UpdateFilm.this, "Film has been updated!", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(UpdateFilm.this, MainActivity.class);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(UpdateFilm.this, "Please input valid data!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
